@@ -1,13 +1,15 @@
 import './style.css'
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
+
 
 // scene is the container that holds the objects, lights etc
 const scene = new THREE.Scene();
 
 // args are in order: FOV, Aspect Ratio based off users browser window, View Frustrum (control which objects are visible relative to the camera)
 // ORDER MATTERS FOR INNDERWIDTH AND INNERHEIGHT!!
-const camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 0.1, 100);
+const camera = new THREE.PerspectiveCamera( 100, window.innerWidth / window.innerHeight, 0.1, 100);
 
 const renderer = new THREE.WebGLRenderer({
   canvas: document.querySelector('#bg'),
@@ -46,6 +48,13 @@ const controls = new OrbitControls(camera, renderer.domElement);
 
 scene.add(pointLight,pointLight2,  torus)
 // renderer.render(scene, camera)
+
+const loader = new GLTFLoader();
+loader.load("./models/single_book.glb", function(gltf) {
+  scene.add(gltf.scene);
+})
+
+
 
 function addStars() {
   const geometry = new THREE.SphereGeometry(0.25, 24, 24);
